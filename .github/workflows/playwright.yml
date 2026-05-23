@@ -30,6 +30,10 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test # headlóss mód a config fájlban beállítva
 
+      - name: Generate Allure report
+        if: always()
+        run: npm run allure:generate
+
       - name: Upload Playwright HTML report
         uses: actions/upload-artifact@v4
         if: always()                     # feltöltés akkor is, ha a tesztek elbuknak
