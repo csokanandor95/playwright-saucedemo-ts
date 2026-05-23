@@ -1,8 +1,8 @@
 # playwright-saucedemo-ts
 
-Playwright + TypeScript end-to-end test suite targeting [saucedemo.com](https://www.saucedemo.com), built as demo project to demonstrate and practice core test automation concepts: Page Object Model, fixtures, and CI/CD integration via GitHub Actions.
+Playwright + TypeScript end-to-end test suite targeting [saucedemo.com](https://www.saucedemo.com), built as demo project to demonstrate and practice core test automation concepts: Page Object Model, fixtures, Allure reporting, and CI/CD integration via GitHub Actions.
 
-> **Selenium counterpart:** This project is the TypeScript/Playwright solution of a previously built [Selenium + Python](https://github.com/csokanandor95/selenium-automation-demo) test suite on the same application. I aim to write the same testst with the different technologies and will compare the results - as my time will allow :)
+> **Selenium counterpart:** This project is the TypeScript/Playwright solution of a previously built [Selenium + Python](https://github.com/csokanandor95/selenium-automation-demo) test suite on the same application. I aim to write the same tests with the different technologies and will compare the results - as my time will allow :)
 
 ---
 
@@ -13,6 +13,7 @@ Playwright + TypeScript end-to-end test suite targeting [saucedemo.com](https://
 | [Playwright](https://playwright.dev/) | 1.59.1 | Test framework & browser automation |
 | TypeScript | 5.x | Language |
 | Node.js | 20.x | Runtime |
+| [Allure Report](https://allurereport.org/) | 2.x | Test reporting |
 | GitHub Actions | – | CI/CD pipeline |
 
 ---
@@ -41,6 +42,8 @@ playwright-saucedemo-ts/
 ├── test-data/
 │   └── users.ts                 # Credentials & expected error messages
 │
+├── allure-results/              # Auto-generated – raw Allure data (gitignored)
+├── allure-report/               # Auto-generated – Allure HTML report (gitignored)
 ├── playwright.config.ts         # Base URL, retries, reporter, screenshot config
 └── tsconfig.json
 ```
@@ -80,11 +83,13 @@ playwright-saucedemo-ts/
 
 **Data separation** – All credentials and expected error messages are centralized in `test-data/users.ts` as a single source of truth.
 
+**Allure Reporting** – Integrated alongside Playwright's built-in HTML reporter. Allure provides a richer, interactive report with step-by-step breakdown, suite grouping, and visual statistics.
+
 ---
 
 ## Running Locally
 
-**Prerequisites:** Node.js 20+, npm
+**Prerequisites:** Node.js 20+, npm, Java 11+ (required by Allure CLI)
 
 ```bash
 # Install dependencies
@@ -102,9 +107,35 @@ npx playwright test tests/login.spec.ts
 # Run with headed browser (visible)
 npx playwright test --headed
 
-# Open HTML report after run
+# Open Playwright HTML report
 npx playwright show-report
 ```
+
+---
+
+## Reporting
+
+The project uses two reporters running simultaneously:
+
+| Reporter | Command | Output |
+|---|---|---|
+| Playwright HTML | `npx playwright show-report` | `playwright-report/` |
+| Allure Report | `npm run allure:report` | `allure-report/` |
+
+### Allure commands
+
+```bash
+# Generate Allure report from test results
+npm run allure:generate
+
+# Open generated report in browser (requires local web server – do not open index.html directly)
+npm run allure:open
+
+# Generate and open in one step
+npm run allure:report
+```
+
+> **Note:** Allure Report requires a local web server to run correctly. Opening `index.html` directly in the browser will result in errors. Always use `npm run allure:open` or VS Code Live Server.
 
 ---
 
@@ -118,9 +149,18 @@ The pipeline runs automatically on every push and pull request to `main`.
 3. `npm ci` – deterministic dependency install from lockfile
 4. Install Chromium with system dependencies
 5. Run full test suite in headless mode
-6. Upload HTML report as artifact (retained for 14 days)
+6. Generate reports
+7. Upload artifacts (retained for 14 days)
 
-The HTML report is downloadable from the **Actions** tab → latest run → **Artifacts → playwright-report**.
+### Artifacts available after each pipeline run
+
+| Artifact | Contents |
+|---|---|
+| `playwright-report` | Playwright built-in HTML report |
+| `allure-report` | Generated Allure HTML report |
+| `allure-results` | Raw Allure JSON data (for future history/trend support) |
+
+> **Tip:** To view the downloaded Allure artifact locally, unzip it and run `npx allure open allure-report` from the project root.
 
 ---
 
@@ -128,4 +168,3 @@ The HTML report is downloadable from the **Actions** tab → latest run → **Ar
 
 **Csóka Nándor** – QA Engineer  
 [GitHub](https://github.com/csokanandor95) · [Portfolio website](https://csokanandor95.github.io)
-
