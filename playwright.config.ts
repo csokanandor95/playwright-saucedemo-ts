@@ -10,8 +10,13 @@ export default defineConfig({
   },
 
   reporter: [
-    ['list'],                 // terminál output
-    ['html', { open: 'never' }], // HTML report, nem nyílik fel auto.
+    ['list'], // terminál output
+    ['html', { open: 'never' }], // html, nem nyílik meg automatikusan
+    ['allure-playwright', {
+        detail: true,
+        outputFolder: 'allure-results',
+        suiteTitle: true,
+    }],
   ],
 
   use: {
