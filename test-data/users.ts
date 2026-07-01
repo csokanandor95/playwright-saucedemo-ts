@@ -8,8 +8,8 @@ export const USERS = {
     password: 'secret_sauce',
   },
   invalid: {
-    username: 'standard_user',
-    password: 'wrong_password',
+    username: 'invalid_user',
+    password: 'invalid_password',
   },
 };
 

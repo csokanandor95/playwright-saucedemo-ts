@@ -20,20 +20,27 @@ test.describe('Login Tests', () => { // Login teszt suite
   });
 
   test('TC-L02: Failed login with invalid password', async ({ page }) => {
-    await loginPage.login(USERS.invalid.username, USERS.invalid.password);
+    await loginPage.login(USERS.standard.username, USERS.invalid.password);
 
     const error = await loginPage.getErrorMessage();
     expect(error).toContain(ERROR_MESSAGES.invalidCredentials);
   });
 
-  test('TC-L03: Locked user login attempt', async ({ page }) => {
+  test('TC-L03: Failed login with invalid username', async ({ page }) => {
+    await loginPage.login(USERS.invalid.username, USERS.standard.password);
+
+    const error = await loginPage.getErrorMessage();
+    expect(error).toContain(ERROR_MESSAGES.invalidCredentials);
+  });
+
+  test('TC-L04: Locked user login attempt', async ({ page }) => {
     await loginPage.login(USERS.locked.username, USERS.locked.password);
 
     const error = await loginPage.getErrorMessage();
     expect(error).toContain(ERROR_MESSAGES.lockedUser);
   });
 
-  test('TC-L04: Empty fields login attempt', async () => {
+  test('TC-L05: Empty fields login attempt', async () => {
     await loginPage.loginWithEmptyFields();
 
     const error = await loginPage.getErrorMessage();
