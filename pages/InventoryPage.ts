@@ -65,4 +65,7 @@ export class InventoryPage {
   async getFirstItemPrice(): Promise<string> {
     return await this.firstItemPrice.innerText();
   }
+  async goToProductDetail() {
+    await this.firstItemName.click();
+  }
 }

@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
+import { ProductDetailPage } from '../pages/ProductDetailPage';
 import { USERS } from '../test-data/users';
 
 // A fixture által biztosított objektumok típusa
@@ -9,6 +10,7 @@ type AuthFixtures = {
   loginPage: LoginPage;
   inventoryPage: InventoryPage;
   cartPage: CartPage;
+  productDetailPage: ProductDetailPage;
 };
 
 export const test = base.extend<AuthFixtures>({
@@ -30,6 +32,11 @@ export const test = base.extend<AuthFixtures>({
   cartPage: async ({ page, loginPage }, use) => {
     const cartPage = new CartPage(page);
     await use(cartPage);
+  },
+
+  productDetailPage: async ({ page, loginPage }, use) => {
+    const productDetailPage = new ProductDetailPage(page);
+    await use(productDetailPage);
   },
 
 });

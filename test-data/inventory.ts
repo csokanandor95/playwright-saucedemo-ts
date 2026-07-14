@@ -11,3 +11,8 @@ export const EXPECTED_SORT_RESULTS = {
     firstItemPriceLowHigh: '$7.99',
     firstItemPriceHighLow: '$49.99',
 }
+
+export const PRODUCT_DETAIL = {
+  firstName:  'Sauce Labs Backpack',
+  firstPrice: '$29.99',
+};
