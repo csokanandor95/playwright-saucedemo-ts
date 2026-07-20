@@ -3,9 +3,26 @@ export const PRODUCT_CART = {
 };
 
 export const CHECKOUT_DETAILS = {
-  firstName:  'John',
-  lastName:   'Doe',
-  postalCode: '12345',
+  happyPath: {
+    firstName:  'John',
+    lastName:   'Doe',
+    postalCode: '12345',
+  },
+  emptyFirstName: {
+    firstName:  '',
+    lastName:   'Doe',
+    postalCode: '12345',
+  },
+  emptyLastName: {
+    firstName:  'John',
+    lastName:   '',
+    postalCode: '12345',
+  },
+  emptyPostalCode: {
+    firstName:  'John',
+    lastName:   'Doe',
+    postalCode: '',
+  },
 };
 
 export const ERROR_MESSAGES = {
